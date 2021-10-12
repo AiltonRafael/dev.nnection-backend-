@@ -1,12 +1,22 @@
 const userModel = require('../../models/login')
 import { Request, Response } from 'express'
+/* 
+interface UserData {
+    name: String,
+    email: String,
+    birthday: String
+ */
 
 export const getLogin = (req: Request, res: Response) => {
     res.status(200).send('Running')
 }
 
 export const postUserLogin = async (req: Request, res: Response) => {
-    const user = new userModel(req.body);
+    const user = new userModel({
+        name: req.body.name,
+        email: req.body.email,
+        birthdate: req.body.birthdate
+    });
     try {
         await user.save();
         res.send(user);
