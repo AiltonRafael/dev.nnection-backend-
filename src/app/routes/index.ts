@@ -9,4 +9,4 @@ routers.post('/login_user', postUserLogin)
 
 routers.get('/users', getUsersLogin)
 
-export default routers;
+export default routers
