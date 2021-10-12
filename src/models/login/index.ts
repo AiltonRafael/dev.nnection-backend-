@@ -11,8 +11,13 @@ const UserSchema = new mongoose.Schema({
   },
   birthdate: {
     type: Date,
-    required: false,
+    required: true,
   },
+  created_at: {
+    type: Date,
+    required: true,
+    default: Date.now()
+  }
 })
 
 export const User = mongoose.model('User', UserSchema)

@@ -7,7 +7,7 @@ export default function connectToMongoDB(): void {
     if (mongoURI) {
         mongoose.connect(
             mongoURI, 
-            () => console.log(`connected to mongoBD`)
+            () => console.log(`Connected to mongoBD`)
         );
     } else {
         console.log('Failed to connect')

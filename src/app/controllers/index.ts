@@ -1,11 +1,5 @@
 import { User } from '../../models/login'
 import { Request, Response } from 'express'
-/* 
-interface UserData {
-    name: String,
-    email: String,
-    birthday: String
- */
 
 export const getLogin = (req: Request, res: Response) => {
   res.status(200).send('Running')
@@ -16,13 +10,20 @@ export const postUserLogin = async (req: Request, res: Response) => {
     name: req.body.name,
     email: req.body.email,
     birthdate: req.body.birthdate,
+    created_at: req.body.created_at
   })
-  try {
-    await user.save()
-    res.send(user)
-  } catch (error) {
-    res.status(500).send(error)
-  }
+  
+  const useExists = await User.exists({email: req.body.email})
+
+  if(!useExists) {
+    try {
+        await user.save()
+        res.send('Registered!')
+      } catch (error) {
+        res.status(500).send(error)
+      }
+  } else (res.send('User exists'))
+
 }
 
 export const getUsersLogin = async (req: Request, res: Response) => {
