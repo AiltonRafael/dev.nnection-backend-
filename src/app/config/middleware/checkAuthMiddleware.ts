@@ -4,14 +4,14 @@ import { DecodedToken } from '../../../utils/types'
 import { auth } from '../../config'
 
 export const checkAuthMiddleware = (
-  request: Request,
-  response: Response,
+  req: Request,
+  res: Response,
   next: NextFunction
 ) => {
-  const { authorization } = request.headers
+  const { authorization } = req.headers
 
   if (!authorization) {
-    return response.status(401).json({
+    return res.status(401).json({
       error: true,
       code: 'token.invalid',
       message: 'Token not present.',
@@ -21,7 +21,7 @@ export const checkAuthMiddleware = (
   const [, token] = authorization?.split(' ')
 
   if (!token) {
-    return response.status(401).json({
+    return res.status(401).json({
       error: true,
       code: 'token.invalid',
       message: 'Token not present.',
@@ -31,11 +31,11 @@ export const checkAuthMiddleware = (
   try {
     const decoded = jwt.verify(token as string, auth.secret) as DecodedToken
 
-    request.user = decoded.sub
+    req.user = decoded.sub
 
     return next()
   } catch (err) {
-    return response
+    return res
       .status(401)
       .json({ error: true, code: 'token.expired', message: 'Token invalid.' })
   }

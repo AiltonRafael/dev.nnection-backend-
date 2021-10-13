@@ -3,14 +3,14 @@ import { decode } from 'jsonwebtoken'
 import { DecodedToken } from '../../../utils/types'
 
 export const addUserInformationToRequest = (
-  request: Request,
-  response: Response,
+  req: Request,
+  res: Response,
   next: NextFunction
 ) => {
-  const { authorization } = request.headers
+  const { authorization } = req.headers
 
   if (!authorization) {
-    return response.status(401).json({
+    return res.status(401).json({
       error: true,
       code: 'token.invalid',
       message: 'Token not present.',
@@ -20,7 +20,7 @@ export const addUserInformationToRequest = (
   const [, token] = authorization?.split(' ')
 
   if (!token) {
-    return response.status(401).json({
+    return res.status(401).json({
       error: true,
       code: 'token.invalid',
       message: 'Token not present.',
@@ -30,11 +30,11 @@ export const addUserInformationToRequest = (
   try {
     const decoded = decode(token as string) as DecodedToken
 
-    request.user = decoded.sub
+    req.user = decoded.sub
 
     return next()
   } catch (err) {
-    return response.status(401).json({
+    return res.status(401).json({
       error: true,
       code: 'token.invalid',
       message: 'Invalid token format.',
