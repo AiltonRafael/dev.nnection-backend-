@@ -25,7 +25,7 @@ export const postUserLogin = async (req: Request, res: Response) => {
     } catch (error) {
       res.status(500).send(error)
     }
-  } else res.status(403).send('User exists!')
+  } else res.status(403).send({ error: 'User exists!' })
 }
 
 export const getUsersLogin = async (req: Request, res: Response) => {
