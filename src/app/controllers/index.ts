@@ -16,9 +16,9 @@ export const postUserLogin = async (req: Request, res: Response) => {
     created_at,
   })
 
-  const useExists = await User.exists({ email })
+  const userExists = await User.exists({ email })
 
-  if (!useExists) {
+  if (!userExists) {
     try {
       await user.save()
       res.send('Registered!')
@@ -29,10 +29,21 @@ export const postUserLogin = async (req: Request, res: Response) => {
 }
 
 export const getUsersLogin = async (req: Request, res: Response) => {
-  const users = await User.find({})
-
   try {
-    res.send(users)
+    const users = await User.find({})
+    const { page = 1, per_page = 10 } = req.query
+
+    const totalUsers = users.length
+
+    const pageStart = (Number(page) - 1) * Number(per_page)
+    const pageEnd = pageStart + Number(per_page)
+
+    res.send({
+      users: users.slice(pageStart, pageEnd),
+      totalUsers,
+    })
+
+    return
   } catch (error) {
     res.status(500).send(error)
   }
