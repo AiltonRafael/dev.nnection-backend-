@@ -48,3 +48,14 @@ export const getUsersLogin = async (req: Request, res: Response) => {
     res.status(500).send(error)
   }
 }
+
+export const getUserByID = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const user = await User.find({ _id: String(id) })
+
+    res.send(user)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
