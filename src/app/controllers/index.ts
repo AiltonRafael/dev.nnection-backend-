@@ -2,7 +2,7 @@ import { User } from '../../models/login'
 import { Request, Response } from 'express'
 import { CreateSessionDTO } from '../../utils/types'
 import { generateJwtAndRefreshToken } from '../config/auth'
-import { users } from '../../database'
+import {  checkRefreshTokenIsValid, users, invalidateRefreshToken } from '../../database'
 
 export const getLogin = (req: Request, res: Response) => {
   res.status(200).send('Running')
@@ -86,4 +86,50 @@ export const postUserToken = async (req: Request, res: Response) => {
     permissions: user.permissions,
     roles: user.roles,
   })
+}
+
+export const postRefreshToken = async (req: Request, res: Response) => {
+  const email = req.user
+  const { refreshToken } = req.body
+
+  const user = users.get(email)
+
+  if (!user) {
+    return res.status(401).json({
+      error: true,
+      message: 'User not found.',
+    })
+  }
+
+  if (!refreshToken) {
+    return res
+      .status(401)
+      .json({ error: true, message: 'Refresh token is required.' })
+  }
+
+  const isValidRefreshToken = checkRefreshTokenIsValid(email, refreshToken)
+
+  if (!isValidRefreshToken) {
+    return res
+      .status(401)
+      .json({ error: true, message: 'Refresh token is invalid.' })
+  }
+
+  invalidateRefreshToken(email, refreshToken)
+
+  const { token, refreshToken: newRefreshToken } = generateJwtAndRefreshToken(
+    email,
+    {
+      permissions: user.permissions,
+      roles: user.roles,
+    }
+  )
+
+  return res.json({
+    token,
+    refreshToken: newRefreshToken,
+    permissions: user.permissions,
+    roles: user.roles,
+  })
+})
 }
