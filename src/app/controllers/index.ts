@@ -6,24 +6,25 @@ export const getLogin = (req: Request, res: Response) => {
 }
 
 export const postUserLogin = async (req: Request, res: Response) => {
+  const { name, email, birthdate, created_at } = req.body
+
   const user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    birthdate: req.body.birthdate,
-    created_at: req.body.created_at
+    name,
+    email,
+    birthdate,
+    created_at,
   })
-  
-  const useExists = await User.exists({email: req.body.email})
 
-  if(!useExists) {
+  const useExists = await User.exists({ email })
+
+  if (!useExists) {
     try {
-        await user.save()
-        res.send('Registered!')
-      } catch (error) {
-        res.status(500).send(error)
-      }
-  } else (res.send('User exists'))
-
+      await user.save()
+      res.send('Registered!')
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  } else res.send('User exists')
 }
 
 export const getUsersLogin = async (req: Request, res: Response) => {
