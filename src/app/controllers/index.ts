@@ -2,7 +2,11 @@ import { User } from '../../models/login'
 import { Request, Response } from 'express'
 import { CreateSessionDTO } from '../../utils/types'
 import { generateJwtAndRefreshToken } from '../config/auth'
-import {  checkRefreshTokenIsValid, users, invalidateRefreshToken } from '../../database'
+import {
+  checkRefreshTokenIsValid,
+  users,
+  invalidateRefreshToken,
+} from '../../database'
 
 export const getLogin = (req: Request, res: Response) => {
   res.status(200).send('Running')
@@ -31,7 +35,7 @@ export const postUserLogin = async (req: Request, res: Response) => {
   } else res.status(403).send({ error: 'User exists!' })
 }
 
-export const getUsersLogin = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find({})
     const { page = 1, per_page = 10 } = req.query
@@ -131,5 +135,20 @@ export const postRefreshToken = async (req: Request, res: Response) => {
     permissions: user.permissions,
     roles: user.roles,
   })
-})
+}
+
+export const getMySession = (req: Request, res: Response) => {
+  const email = req.user
+
+  const user = users.get(email)
+
+  if (!user) {
+    return res.status(400).json({ error: true, message: 'User not found.' })
+  }
+
+  return res.json({
+    email,
+    permissions: user.permissions,
+    roles: user.roles,
+  })
 }
