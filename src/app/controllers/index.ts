@@ -6,12 +6,13 @@ export const getLogin = (req: Request, res: Response) => {
 }
 
 export const postUserLogin = async (req: Request, res: Response) => {
-  const { name, email, birthdate, created_at } = req.body
+  const { name, email, birthdate, password, created_at } = req.body
 
   const user = new User({
     name,
     email,
     birthdate,
+    password,
     created_at,
   })
 

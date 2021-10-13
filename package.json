@@ -20,5 +20,6 @@
     "@types/mongoose": "^5.11.97",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.3"
-  }
+  },
+  "author": "Ailton Rafael <ailton.junior@al.infnet.edu.br>"
 }
