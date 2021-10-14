@@ -28,7 +28,7 @@ export function seedUserStore() {
     roles: ['administrator'],
   })
 
-  users.set('cornela@gmail.com', {
+  users.set('editor@gmail.com', {
     password: '12345678',
     permissions: ['users.list', 'metrics.list'],
     roles: ['editor'],

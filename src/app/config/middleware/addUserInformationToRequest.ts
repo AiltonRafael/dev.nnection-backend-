@@ -2,6 +2,10 @@ import { NextFunction } from 'express'
 import { decode } from 'jsonwebtoken'
 import { DecodedToken } from '../../../utils/types'
 
+interface CustomHeaders extends Headers {
+  authorization: string
+}
+
 export const addUserInformationToRequest = (
   req: Request,
   res: Response,
