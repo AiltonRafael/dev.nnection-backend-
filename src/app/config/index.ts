@@ -9,5 +9,5 @@ export default function appConfig(app: Express): void {
 }
 
 export const auth = {
-  secret: 'supersecret',
+  secret: process.env.AUTH_SECRET,
 } as const
