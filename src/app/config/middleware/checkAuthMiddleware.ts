@@ -11,6 +11,8 @@ export const checkAuthMiddleware = (
   const { authorization } = req.headers
 
   if (!authorization) {
+    console.log(req)
+
     return res.status(401).json({
       error: true,
       code: 'token.invalid',
@@ -21,6 +23,8 @@ export const checkAuthMiddleware = (
   const [, token] = authorization?.split(' ')
 
   if (!token) {
+    console.log('token')
+
     return res.status(401).json({
       error: true,
       code: 'token.invalid',

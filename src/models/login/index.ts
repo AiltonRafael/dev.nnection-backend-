@@ -1,7 +1,11 @@
 import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema({
-  name: {
+  first_name: {
+    type: String,
+    required: true,
+  },
+  last_name: {
     type: String,
     required: true,
   },
@@ -9,7 +13,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  birthdate: {
+  birthday: {
     type: Date,
     required: true,
   },
@@ -20,8 +24,8 @@ const UserSchema = new mongoose.Schema({
   created_at: {
     type: Date,
     required: true,
-    default: Date.now()
-  }
+    default: Date.now(),
+  },
 })
 
 export const User = mongoose.model('User', UserSchema)

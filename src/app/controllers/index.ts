@@ -13,12 +13,14 @@ export const getLogin = (req: Request, res: Response) => {
 }
 
 export const postUserLogin = async (req: Request, res: Response) => {
-  const { name, email, birthdate, password, created_at } = req.body
+  const { first_name, last_name, email, birthday, password, created_at } =
+    req.body
 
   const user = new User({
-    name,
+    first_name,
+    last_name,
     email,
-    birthdate,
+    birthday,
     password,
     created_at,
   })
@@ -70,9 +72,10 @@ export const getUserByID = async (req: Request, res: Response) => {
 export const postUserToken = async (req: Request, res: Response) => {
   const { email, password } = req.body as CreateSessionDTO
 
-  const user = users.get(email)
+  // const user = users.get(email)
+  const user = await User.find({ email })
 
-  if (!user || password !== user.password) {
+  if (!user || password !== user[0].password) {
     return res.status(401).json({
       error: true,
       message: 'E-mail or password incorrect.',
