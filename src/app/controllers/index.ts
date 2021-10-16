@@ -99,9 +99,10 @@ export const postRefreshToken = async (req: Request, res: Response) => {
   const email = req.user
   const { refreshToken } = req.body
 
-  const user = users.get(email)
+  // const user = users.get(email)
+  const user = await User.find({ email })
 
-  if (!user) {
+  if (!user[0]) {
     return res.status(401).json({
       error: true,
       message: 'User not found.',
@@ -140,12 +141,12 @@ export const postRefreshToken = async (req: Request, res: Response) => {
   })
 }
 
-export const getMySession = (req: Request, res: Response) => {
+export const getMySession = async (req: Request, res: Response) => {
   const email = req.user
 
-  const user = users.get(email)
+  const user = await User.find({ email })
 
-  if (!user) {
+  if (!user[0]) {
     return res.status(400).json({ error: true, message: 'User not found.' })
   }
 
