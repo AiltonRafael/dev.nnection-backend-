@@ -72,10 +72,9 @@ export const getUserByID = async (req: Request, res: Response) => {
 export const postUserToken = async (req: Request, res: Response) => {
   const { email, password } = req.body as CreateSessionDTO
 
-  // const user = users.get(email)
   const user = await User.find({ email })
 
-  if (!user || password !== user[0].password) {
+  if (!user || password !== user[0]?.password) {
     return res.status(401).json({
       error: true,
       message: 'E-mail or password incorrect.',
@@ -99,7 +98,6 @@ export const postRefreshToken = async (req: Request, res: Response) => {
   const email = req.user
   const { refreshToken } = req.body
 
-  // const user = users.get(email)
   const user = await User.find({ email })
 
   if (!user[0]) {
@@ -149,8 +147,11 @@ export const getMySession = async (req: Request, res: Response) => {
   if (!user[0]) {
     return res.status(400).json({ error: true, message: 'User not found.' })
   }
+  const { first_name, last_name } = user[0]
 
   return res.json({
+    first_name,
+    last_name,
     email,
     permissions: user.permissions,
     roles: user.roles,
