@@ -24,6 +24,7 @@ routers.post('/sessions', postUserToken)
 routers.post('/refresh', addUserInformationToRequest, postRefreshToken)
 routers.get('/me', checkAuthMiddleware, getMySession)
 
+routers.post('/posts/new', postNewPost)
 routers.get('/posts', getPosts)
 
 export default routers

@@ -173,3 +173,26 @@ export const getPosts = async (req: Request, res: Response) => {
     res.status(500).send(error)
   }
 }
+
+export const postNewPost = async (req: Request, res: Response) => {
+  const { message, user, timestamp, likes, github, linkedin, image, tags } =
+    req.body
+
+  const post = new Post({
+    message,
+    user,
+    timestamp,
+    likes,
+    github,
+    linkedin,
+    image,
+    tags,
+  })
+
+  try {
+    await post.save()
+    res.send('New post registered!')
+  } catch (error) {
+    res.status(403).send({ error: 'Error' })
+  }
+}
