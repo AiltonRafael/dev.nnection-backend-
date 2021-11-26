@@ -13,8 +13,16 @@ export const getLogin = (req: Request, res: Response) => {
 }
 
 export const postUserLogin = async (req: Request, res: Response) => {
-  const { first_name, last_name, email, birthday, password, created_at } =
-    req.body
+  const {
+    first_name,
+    last_name,
+    email,
+    birthday,
+    password,
+    created_at,
+    profile_picture,
+    city,
+  } = req.body
 
   const user = new User({
     first_name,
@@ -23,6 +31,8 @@ export const postUserLogin = async (req: Request, res: Response) => {
     birthday,
     password,
     created_at,
+    profile_picture,
+    city,
   })
 
   const userExists = await User.exists({ email })
