@@ -26,6 +26,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     default: Date.now(),
   },
+  image: String,
 })
 
 const PostSchema = new mongoose.Schema({
