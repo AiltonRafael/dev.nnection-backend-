@@ -157,7 +157,7 @@ export const getMySession = async (req: Request, res: Response) => {
     return res.status(400).json({ error: true, message: 'User not found.' })
   }
 
-  const { first_name, last_name } = user[0]
+  const { first_name, last_name, image } = user[0]
 
   return res.json({
     first_name,
@@ -165,6 +165,7 @@ export const getMySession = async (req: Request, res: Response) => {
     email,
     permissions: user.permissions,
     roles: user.roles,
+    image,
   })
 }
 
