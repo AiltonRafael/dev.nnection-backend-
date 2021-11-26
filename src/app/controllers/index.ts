@@ -1,4 +1,4 @@
-import { User } from '../../models/login'
+import { User, Post } from '../../models/login'
 import { Request, Response } from 'express'
 import { CreateSessionDTO } from '../../utils/types'
 import { generateJwtAndRefreshToken } from '../config/auth'
@@ -7,6 +7,7 @@ import {
   users,
   invalidateRefreshToken,
 } from '../../database'
+import mongoose from 'mongoose'
 
 export const getLogin = (req: Request, res: Response) => {
   res.status(200).send('Running')
@@ -157,4 +158,18 @@ export const getMySession = async (req: Request, res: Response) => {
     permissions: user.permissions,
     roles: user.roles,
   })
+}
+
+export const getPosts = async (req: Request, res: Response) => {
+  try {
+    const posts = await Post.find({})
+
+    res.send({
+      posts,
+    })
+
+    return
+  } catch (error) {
+    res.status(500).send(error)
+  }
 }

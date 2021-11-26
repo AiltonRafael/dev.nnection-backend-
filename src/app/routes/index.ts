@@ -9,6 +9,7 @@ import {
   postUserToken,
   postRefreshToken,
   getMySession,
+  getPosts,
 } from '../controllers/index'
 
 const routers = Router()
@@ -22,5 +23,7 @@ routers.get('/users/:id', getUserByID)
 routers.post('/sessions', postUserToken)
 routers.post('/refresh', addUserInformationToRequest, postRefreshToken)
 routers.get('/me', checkAuthMiddleware, getMySession)
+
+routers.get('/posts', getPosts)
 
 export default routers
