@@ -10,6 +10,7 @@ import {
   postRefreshToken,
   getMySession,
   getPosts,
+  postNewPost,
 } from '../controllers/index'
 
 const routers = Router()
