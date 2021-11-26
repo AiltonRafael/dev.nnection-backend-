@@ -12,7 +12,6 @@ import {
 } from '../controllers/index'
 
 const routers = Router()
-
 routers.get('/', getLogin)
 
 routers.post('/login_user', postUserLogin)

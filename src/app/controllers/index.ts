@@ -157,6 +157,7 @@ export const getMySession = async (req: Request, res: Response) => {
   if (!user[0]) {
     return res.status(400).json({ error: true, message: 'User not found.' })
   }
+
   const { first_name, last_name } = user[0]
 
   return res.json({
